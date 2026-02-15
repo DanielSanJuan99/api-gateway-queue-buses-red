@@ -1,0 +1,67 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway-queue-buses-red
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: false
+            maxAge: 3600
+      routes:
+        # Ruta para Producer Location
+        - id: producer-location-route
+          uri: http://producer-location-buses-red:8081
+          predicates:
+            - Path=/api/location/**
+          filters:
+            - StripPrefix=1
+        
+        # Ruta para Producer Schedules
+        - id: producer-schedules-route
+          uri: http://producer-schedules-buses-red:8082
+          predicates:
+            - Path=/api/schedules/**
+          filters:
+            - StripPrefix=1
+        
+        # Ruta para Consumer Location
+        - id: consumer-location-route
+          uri: http://consumer-location-buses-red:8083
+          predicates:
+            - Path=/api/consumer-location/**
+          filters:
+            - StripPrefix=1
+        
+        # Ruta para Consumer Schedules
+        - id: consumer-schedules-route
+          uri: http://consumer-schedules-buses-red:8084
+          predicates:
+            - Path=/api/consumer-schedules/**
+          filters:
+            - StripPrefix=1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG
