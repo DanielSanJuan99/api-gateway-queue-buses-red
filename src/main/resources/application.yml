@@ -5,6 +5,8 @@ spring:
   application:
     name: api-gateway-queue-buses-red
   cloud:
+    compatibility-verifier:
+      enabled: false
     gateway:
       globalcors:
         cors-configurations:
@@ -52,6 +54,11 @@ spring:
           filters:
             - StripPrefix=1
 
+gateway:
+  security:
+    username: ${GATEWAY_USERNAME}
+    password: ${GATEWAY_PASSWORD}
+
 management:
   endpoints:
     web:
@@ -63,5 +70,5 @@ management:
 
 logging:
   level:
-    org.springframework.cloud.gateway: DEBUG
-    org.springframework.security: DEBUG
+    org.springframework.cloud.gateway: INFO
+    org.springframework.security: INFO

@@ -1,5 +1,6 @@
 package com.busesred.gateway.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -14,6 +15,12 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
+
+    @Value("${gateway.security.username}")
+    private String username;
+
+    @Value("${gateway.security.password}")
+    private String password;
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
@@ -31,8 +38,8 @@ public class SecurityConfig {
     @Bean
     public MapReactiveUserDetailsService userDetailsService() {
         UserDetails user = User.builder()
-            .username("admin")
-            .password(passwordEncoder().encode("admin123"))
+            .username(username)
+            .password(passwordEncoder().encode(password))
             .roles("ADMIN")
             .build();
         
