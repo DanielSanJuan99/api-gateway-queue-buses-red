@@ -87,6 +87,27 @@ GET /actuator/health
 GET /actuator/gateway/routes
 ```
 
+## Configuración de Variables de Entorno
+
+El proyecto incluye un archivo `.env.example` con las variables necesarias:
+
+```bash
+# Copiar el archivo de ejemplo
+cp .env.example .env
+
+# Editar con tus valores
+nano .env
+```
+
+**Variables disponibles:**
+
+| Variable | Requerida | Default en docker-compose | Descripción |
+|---|---|---|---|
+| `GATEWAY_USERNAME` | Sí | `admin` | Usuario para Basic Auth |
+| `GATEWAY_PASSWORD` | Sí | `admin123` | Contraseña para Basic Auth |
+
+> **Nota:** En `docker-compose.yml` estas variables ya tienen valores por defecto. El `.env` solo es necesario si se desea ejecutar el contenedor de forma independiente con `docker run --env-file .env`.
+
 ## Ejecución Local
 
 ```bash
